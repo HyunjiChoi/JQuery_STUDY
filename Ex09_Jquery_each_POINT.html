@@ -15,6 +15,19 @@
 	    1. $(selector).each(function(){this 활용}); 	
 	    2. $(selector).each(function(index){this 활용}); 	
 	    1. $(selector).each(function(index , element){ element});  70% 	
+        
+         
+	    Jquery : each() 반복구문
+	    Jquery :
+	    1. $.each(Array or Object, function(){this 활용}); 	
+	    2. $.each(Array or Object, function(index){this 활용}); 	
+	    3. $.each(Array or Object, function(index , element){ element});  70%
+	    
+	    parameter 각 json 객체
+	    var obj = {name:"홍길동", age:100}
+	    
+	    $(obj).each(function(key, value){});
+	    $.each()obj, fufnction(key, value){value})
 		*/
 	$(document).ready(function(){
 		$('p').each(function(){
@@ -26,6 +39,16 @@
 			//callback  함수 3호출
 			//console.log("index : "  + index);
 			//console.log("this : " + $(this).text());
+            
+            //index  활용하기 (중복값이 없다)
+			//$(this).attr("id","param-"+index);
+			//응용()  attr >> 속성 여러개 부여 >> jquery parameter json 객체^^
+			$(this).attr(
+				{
+					"id":"param-"+index,
+					"style":"color:red",
+				}		
+			)
 		});
 		
 		$('p').each(function(index,element){
@@ -34,6 +57,73 @@
 			console.log(element);
 			console.log("element : " + $(element).text());
 		});
+        
+        $('#btn').click(function(){
+			alert($('#param-1').text());
+		});
+		
+		/*
+			let arr = ['사과', '배', 수박];		Array
+			let obj = {}					JsonObj
+			let arrobj = [{}, {}, {}]		ArrayObj
+		*/
+		
+		var array = [
+			{"name":"naver", "link":"www.naver.com"} ,
+			{"name":"daum",  "link":"www.daum.net"} ,
+			{"name":"bit",       "link":"www.bit.or.kr"} 
+		];
+	   //문제
+	   // $.each(Array or Object , function(index , element){ element}); 
+	   //활용해서  name  값 , link 값을 출력하세요
+		
+	   /*
+	   $.each(array , function(index , element){
+			//console.log(index);
+			console.log(element);  //객체.속성명 , 객체["속성명"]
+		    console.log(element.name + " / " + element["link"]);
+		});
+	   */
+		
+	   let boardobj = {
+			   values:[
+				   		{no:1, title:"hello world"},
+				   		{no:2, title:"korea"},
+				   		{no:3, title:"bit world"}
+			   		  ],
+			   	search:"검색"
+	   }
+	   
+	   //1. $.each() 사용해서 no값, title값을 출력
+	   $.each(boardobj.values, function(index,element){
+			console.log(element.no + " / " + element["title"]);
+		});
+	   
+	   //2. $.each(board) >> key , value 출력
+	   $.each(boardobj,function(key,value){
+		   console.log(key + " / " + value);
+	   });
+	   
+	   // 3. $.each() no, title, search 값을 출력
+	   $.each(boardobj,function(key,value){
+		   $.each(boardobj.values, function(index,element){
+				console.log(element.no + " / " + element["title"]+ "/" +value);
+			});
+	   });
+
+	   
+	   $.each(boardobj,function(key , value){
+		   //value >> text , Array , {}
+		   //value  타입 비교 ...
+		   if(typeof(value) == "object"){
+			   $.each(value,function(index,element){
+				   console.log(index + " / " + element.no + " , " + element["title"]);
+			   });
+		   }else{ //text  경우
+			       console.log(key + " / " + value);
+		   }
+	   });
+		   
 	});
 	</script>
 </head>
